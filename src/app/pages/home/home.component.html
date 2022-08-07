@@ -1,0 +1,60 @@
+<div class="container">
+  <h1 class="heading">Movie Gallery</h1>
+
+  <button class="logout-btn" (click)="logout()">Log Out</button>
+  
+  <div class="top-bar">
+    <div class="search">
+      <input
+        type="text"
+        class="searchTerm"
+        [(ngModel)]="term"
+        placeholder="What are you looking for?"
+      />
+      <button type="submit" class="searchButton">Search</button>
+    </div>
+    <div class="sort">
+      <span>Sort By: </span>
+      <input type="radio" id="radio01-01" name="demo01" [(ngModel)]="sortBy" value="0" (click)="sortMovies('0')" /><label
+        for="radio01-01"
+        > Popularity </label
+      >
+      <input type="radio" id="radio01-02" name="demo01" [(ngModel)]="sortBy" value="1" (click)="sortMovies('1')" /><label
+        for="radio01-02"
+        name="sortBy" ngDefaultControl
+        > Date (latest) </label
+      >
+    </div>
+    
+  </div>
+  
+
+  <div class="movie">    
+    <ng-container *ngIf="movies | filter: term as MovieResult">
+      <div class="movie-item" *ngFor="let movie of MovieResult">
+        <img
+          class="movie-image"
+          src="https://image.tmdb.org/t/p/w500/{{ movie.backdrop_path }}"
+          alt="{{ movie.original_title }}"
+        />
+        <div class="movie-desc">
+          <h3>{{ movie.original_title }}</h3>
+
+          <span>Popularity: {{ movie.popularity }}</span>
+          <span>Vote Count: {{ movie.vote_count }} </span>
+          <br />
+          <span>{{ movie.genres.join(" / ") }}</span>
+          <hr />
+
+          <div class="end-data">
+            <span>{{ movie.release_date }}</span>
+            <span>&bigstar; {{ movie.vote_average }}</span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="MovieResult.length <= 0" class="no-result-found">
+        No Result Found
+      </div>
+    </ng-container>
+  </div>
+</div>
